@@ -1,0 +1,101 @@
+<krpano showerrors="false">
+
+<include url="skin/defaultskin.xml" />
+<include url="animate.xml" />
+<include url="showtext.xml" />
+
+<style
+	name="anime90"
+	url="anime90.png"
+	smoothing="false"
+	onloaded="animate(0.07, 28, 90, 90);"
+	onclick="openurl(get(link),_self);"
+	onhover="showtext(get(text),'hotspot');"
+/>
+
+<style
+	name="photo"
+	url="photo.png"
+	smoothing="false"
+	onloaded="fadeanimate(0.85, 0.01);"
+	onclick="openurl(get(link),_self);"
+	onhover="showtext(get(text),'hotspot');"
+/>
+
+<style
+	name="default"
+	url="photo.png"
+	smoothing="false"
+	onloaded="txtadd(url,get(link),'/hoto.png');"
+	onclick="openurl(get(link),_self);"
+/>
+
+<textstyle name="hotspot"
+           origin="cursor"
+           edge="bottom"
+           xoffset="0"
+           yoffset="-3"
+           fadeintime="0"
+           showtime="0.1"
+           fadetime="0"
+           font="Arial"
+           fontsize="19"
+           bold="true"
+           italic="false"
+           textcolor="0xFFFFFF"
+           textalign="none"
+           padding="7"
+           background="true"
+           backgroundcolor="0x000000"
+           backgroundalpha="0.5"
+           border="false"
+           roundedge="5"
+           shadow="0.001"
+           shadowrange="5"
+           shadowangle="0"
+           shadowcolor="0x000000"
+           shadowalpha="1.0"
+           textshadow="0.001"
+           textshadowrange="3"
+           textshadowangle="0"
+           textshadowcolor="0x000000"
+           textshadowalpha="0.7"
+           embeddedfonts="false"
+           alpha="1.0"
+           blendmode="normal"
+           effect=""
+           noclip="true"
+           />
+
+<plugin
+	name="gyro"
+	devices="html5"
+	keep="true"
+	url="gyro.js"
+	enabled="true"
+	camroll="true"
+	friction="0.0"
+	velastic="0.0"
+	vrelative="false"
+	onavailable=""
+/>
+
+<layer
+	url="homebtn.png"
+	align="righttop"
+	name ="goHome"
+	x="3%"
+	y="3%"
+	onclick="openurl('../',_self);"
+/>
+
+<preview url="%FIRSTXML%/pano.tiles/preview.jpg" />
+
+<image>
+	<cube url="%FIRSTXML%/pano.tiles/pano_%s.jpg" />
+	<mobile>
+		<cube url="%FIRSTXML%/pano.tiles/mobile_%s.jpg" />
+	</mobile>
+</image>
+
+</krpano>

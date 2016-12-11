@@ -1,0 +1,7 @@
+<krpano version="1.18">
+
+<include url="../../res/code/std.xml" />
+	
+<view hlookat="100" vlookat="0" limitview="range" vlookatmin="-32" vlookatmax="32"/>
+
+</krpano>

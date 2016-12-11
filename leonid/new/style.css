@@ -1,0 +1,38 @@
+﻿html
+{
+	font-family: monospace;
+}
+
+.black-on-white
+{
+	background-color: white;
+	color: black;
+}
+
+.black-on-grey
+{
+	background-color: lightgrey;
+	color: black;
+}
+
+.white-on-black
+{
+	background-color: black;
+	color: white;
+}
+
+/*
+:hover
+:active
+:visited
+
+:enabled
+:disabled
+
+::before
+::after
+
+:nth-child(an+b)
+:nth-last-child(an+b)
+
+*/

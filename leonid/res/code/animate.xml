@@ -1,0 +1,31 @@
+<krpano>
+
+<action name="animate">
+	set(stopSequence,false);
+	set(frame,0);
+	set(frames,%2);
+	sub(frames,1);
+	set(framewidth,%3);
+	set(frameheight,%4);
+	set(loopswitch,0);
+	animateinnerloop(%1);
+</action>
+
+<action name="animateinnerloop">
+	set(crop,'');
+	txtadd(crop,'0|',get(ypos),'|',get(framewidth),'|',get(frameheight));
+	if(frame == 0,set(loopswitch,0));
+	if(frame == frames,set(loopswitch,1));
+	if(loopswitch == 0, add(frame,1), sub(frame,1));
+	mul(ypos,frame,frameheight);
+	delayedcall(%1,animateinnerloop(%1));	
+</action>
+
+<action name="fadeanimate">
+	if(alpha LT %1, set(loopswitch,1));
+	if(alpha == 1, set(loopswitch,0));
+	if(loopswitch == 0, sub(alpha, 0.01), add(alpha, 0.01));
+	delayedcall(%2, fadeanimate(%1,%2));	
+</action>
+
+</krpano>
