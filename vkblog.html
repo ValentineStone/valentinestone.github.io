@@ -1,0 +1,49 @@
+<!doctype html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+
+<style>
+  .code {
+    white-space: pre-wrap;
+  }
+
+  dl.notes {
+    margin: 0 auto;
+    max-width: 480px;
+  }
+
+  dl.notes>dd {
+    text-align: justify;
+    margin: 0 0 2em 0;
+    border-left: 1px solid gray;
+    padding-left: 1.5em;
+    padding-top: 0.5em;
+  }
+
+  dl.notes>dt {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    padding: 0.5em;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .description {
+    text-align: center;
+    border-bottom: 1px solid gray;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+  }
+</style>
+
+<h1 class="title">Заметки странника</h1>
+<div class="description">(Упражнения в мышлении)</div>
+
+<div class="app"></div>
+
+<script src="vkblog-build.js" defer></script>
