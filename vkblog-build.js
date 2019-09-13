@@ -46,6 +46,17 @@ function jsonp(uri) {
   });
 }
 
+var postRenderers = [];
+
+function renderPost(item) {
+  for (var i = 0; i < postRenderers.length; i++) {
+    var postRenderer = postRenderers[i]
+    if (postRenderer.date >= item.date)
+      return postRenderer(item)
+  }
+  return defaultPostRenderer(item)
+}
+
 var App =
 /*#__PURE__*/
 function (_React$Component) {
@@ -96,7 +107,7 @@ function (_React$Component) {
             desc = 'Без названия.';
           }
 
-          var ddprops = {dangerouslySetInnerHTML: {__html:marked(text.replace(new RegExp('\n', 'g'), '\n\n'))}}
+          var ddprops = { dangerouslySetInnerHTML: { __html: marked(text) } };
 
           return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', ddprops) //h('dd', null, h('code', { className: 'code' }, JSON.stringify({ ...item, text: '...' }, null, 2)))
           );
