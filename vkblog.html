@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
   .code {
@@ -12,6 +13,7 @@
   dl.notes {
     margin: 0 auto;
     max-width: 480px;
+    padding-right: 0.5em;
   }
 
   dl.notes>dd {
@@ -20,6 +22,10 @@
     border-left: 1px solid gray;
     padding-left: 1.5em;
     padding-top: 0.5em;
+    text-indent: 2em;
+  }
+  dl.notes>dd>p {
+    margin: 0.5em 0;
   }
 
   dl.notes>dt {

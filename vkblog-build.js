@@ -96,7 +96,9 @@ function (_React$Component) {
             desc = 'Без названия.';
           }
 
-          return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', null, text) //h('dd', null, h('code', { className: 'code' }, JSON.stringify({ ...item, text: '...' }, null, 2)))
+          var ddprops = {dangerouslySetInnerHTML: {__html:marked(text.replace(new RegExp('\n', 'g'), '\n\n'))}}
+
+          return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', ddprops) //h('dd', null, h('code', { className: 'code' }, JSON.stringify({ ...item, text: '...' }, null, 2)))
           );
         } else return null;
       }));
