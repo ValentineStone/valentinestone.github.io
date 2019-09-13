@@ -23,6 +23,29 @@ function jsonp(uri) {
   });
 }
 
+let postRenderers = []
+
+function timestamp(year, month, day, ...rest) {
+  let timestamp = String(new Date(year, month - 1, day, ...rest).getTime());
+  timestamp = timestamp.substr(0, timestamp.length - 3);
+  return timestamp;
+}
+
+function PostRenderer(date, render) {
+  postRenderers = [{ date: timestamp(...date.split('-')), render }, ...postRenderers]
+}
+
+function renderPost(post) {
+  console.log(post.date)
+  if (post.text) {
+    for (let postRenderer of postRenderers)
+      if (console.log(postRenderer.date, post.date, postRenderer.date < post.date), postRenderer.date < post.date)
+        return postRenderer.render(post)
+    return defaultPostRenderer(post)
+  }
+  else return null
+}
+
 
 class App extends React.Component {
   constructor(props) {
@@ -40,27 +63,79 @@ class App extends React.Component {
       return 'Loading...'
 
     return h('dl', { className: 'notes' },
-      this.state.response.items.map(item => {
-        if (item.text) {
-          let date = new Date(item.date * 1000).toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit', minute: 'numeric', hour: 'numeric' })
-          date = date.charAt(0).toUpperCase() + date.substring(1)
-          const dotIndex = item.text.indexOf('.')
-          let text = item.text.substr(dotIndex + 2)
-          let desc = item.text.substr(0, dotIndex + 1)
-          if (item.text[0] !== 'Д') {
-            text = item.text
-            desc = 'Без названия.'
-          }
-          return h(React.Fragment, null,
-            h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)),
-            h('dd', null, text),
-            //h('dd', null, h('code', { className: 'code' }, JSON.stringify({ ...item, text: '...' }, null, 2)))
-          )
-        }
-        else return null
-      })
+      this.state.response.items.map(renderPost)
     )
   }
 }
+
+function defaultPostRenderer(post) {
+  let date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  })
+  date = date.charAt(0).toUpperCase() + date.substring(1)
+  let text = post.text
+  let desc = 'Без названия.'
+  return h(React.Fragment, null,
+    h('dt', null,
+      h('strong', null, desc),
+      h('br', null),
+      h('small', null, date)
+    ),
+    h('dd', null, text)
+  )
+}
+
+PostRenderer('2019-09-09', post => {
+  let date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  })
+  date = date.charAt(0).toUpperCase() + date.substring(1)
+  const dotIndex = post.text.indexOf('.')
+  let text = post.text.substr(dotIndex + 2)
+  let desc = post.text.substr(0, dotIndex + 1)
+  let par = text.split('\n')
+  return h(React.Fragment, null,
+    h('dt', null,
+      h('strong', null, desc),
+      h('br', null),
+      h('small', null, date)
+    ),
+    h('dd', null, ...par.map(v => h('p', null, v)))
+  )
+})
+
+PostRenderer('2019-09-13-19', post => {
+  let date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  })
+  date = date.charAt(0).toUpperCase() + date.substring(1)
+  const dotIndex = post.text.indexOf('.')
+  let text = post.text.substr(dotIndex + 2)
+  let desc = post.text.substr(0, dotIndex + 1)
+  let textProps = { dangerouslySetInnerHTML: { __html: marked(text) } }
+  return h(React.Fragment, null,
+    h('dt', null,
+      h('strong', null, desc),
+      h('br', null),
+      h('small', null, date)
+    ),
+    h('dd', textProps)
+  )
+})
 
 ReactDOM.render(h(App, null), document.querySelector('.app'))

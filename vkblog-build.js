@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13,6 +13,18 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -48,13 +60,53 @@ function jsonp(uri) {
 
 var postRenderers = [];
 
-function renderPost(item) {
-  for (var i = 0; i < postRenderers.length; i++) {
-    var postRenderer = postRenderers[i]
-    if (postRenderer.date >= item.date)
-      return postRenderer(item)
+function timestamp(year, month, day) {
+  for (var _len = arguments.length, rest = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+    rest[_key - 3] = arguments[_key];
   }
-  return defaultPostRenderer(item)
+
+  var timestamp = String(_construct(Date, [year, month - 1, day].concat(rest)).getTime());
+  timestamp = timestamp.substr(0, timestamp.length - 3);
+  return timestamp;
+}
+
+function PostRenderer(date, render) {
+  postRenderers = [{
+    date: timestamp.apply(void 0, _toConsumableArray(date.split('-'))),
+    render
+  }].concat(_toConsumableArray(postRenderers));
+}
+
+function renderPost(post) {
+  console.log(post.date);
+
+  if (post.text) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = postRenderers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var postRenderer = _step.value;
+        if (console.log(postRenderer.date, post.date, postRenderer.date < post.date), postRenderer.date < post.date) return postRenderer.render(post);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    return defaultPostRenderer(post);
+  } else return null;
 }
 
 var App =
@@ -87,36 +139,64 @@ function (_React$Component) {
       if (!this.state.response) return 'Loading...';
       return h('dl', {
         className: 'notes'
-      }, this.state.response.items.map(function (item) {
-        if (item.text) {
-          var date = new Date(item.date * 1000).toLocaleDateString('ru-RU', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: '2-digit',
-            minute: 'numeric',
-            hour: 'numeric'
-          });
-          date = date.charAt(0).toUpperCase() + date.substring(1);
-          var dotIndex = item.text.indexOf('.');
-          var text = item.text.substr(dotIndex + 2);
-          var desc = item.text.substr(0, dotIndex + 1);
-
-          if (item.text[0] !== 'Д') {
-            text = item.text;
-            desc = 'Без названия.';
-          }
-
-          var ddprops = { dangerouslySetInnerHTML: { __html: marked(text) } };
-
-          return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', ddprops) //h('dd', null, h('code', { className: 'code' }, JSON.stringify({ ...item, text: '...' }, null, 2)))
-          );
-        } else return null;
-      }));
+      }, this.state.response.items.map(renderPost));
     }
   }]);
 
   return App;
 }(React.Component);
 
+function defaultPostRenderer(post) {
+  var date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  });
+  date = date.charAt(0).toUpperCase() + date.substring(1);
+  var text = post.text;
+  var desc = 'Без названия.';
+  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', null, text));
+}
+
+PostRenderer('2019-09-09', function (post) {
+  var date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  });
+  date = date.charAt(0).toUpperCase() + date.substring(1);
+  var dotIndex = post.text.indexOf('.');
+  var text = post.text.substr(dotIndex + 2);
+  var desc = post.text.substr(0, dotIndex + 1);
+  var par = text.split('\n');
+  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h.apply(void 0, ['dd', null].concat(_toConsumableArray(par.map(function (v) {
+    return h('p', null, v);
+  })))));
+});
+PostRenderer('2019-09-13-19', function (post) {
+  var date = new Date(post.date * 1000).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    minute: 'numeric',
+    hour: 'numeric'
+  });
+  date = date.charAt(0).toUpperCase() + date.substring(1);
+  var dotIndex = post.text.indexOf('.');
+  var text = post.text.substr(dotIndex + 2);
+  var desc = post.text.substr(0, dotIndex + 1);
+  var textProps = {
+    dangerouslySetInnerHTML: {
+      __html: marked(text)
+    }
+  };
+  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', textProps));
+});
 ReactDOM.render(h(App, null), document.querySelector('.app'));
