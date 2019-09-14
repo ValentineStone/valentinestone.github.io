@@ -199,7 +199,7 @@ PostRenderer('2019-09-13-19', function (post) {
   });
   date = date.charAt(0).toUpperCase() + date.substring(1);
   var dotIndex = post.text.indexOf('.');
-  var text = post.text.substr(dotIndex + 2);
+  var text = post.text.replace(/\.[\s\n]+/, '');
   var desc = post.text.substr(0, dotIndex + 1);
   var textProps = {
     dangerouslySetInnerHTML: {
