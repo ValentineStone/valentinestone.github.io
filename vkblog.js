@@ -1,3 +1,5 @@
+'use strict';
+
 document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' })
 
 window.h = React.createElement
