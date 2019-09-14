@@ -144,7 +144,7 @@ PostRenderer('2019-09-13-19', post => {
   })
   date = date.charAt(0).toUpperCase() + date.substring(1)
   const dotIndex = post.text.indexOf('.')
-  let text = post.text.replace(/\.[\s\n]+/, '')
+  let text = post.text.replace(/[^\.]+\.[\s\n]+/, '')
   let desc = post.text.substr(0, dotIndex + 1)
   let textProps = { dangerouslySetInnerHTML: { __html: marked(text) } }
   return h(React.Fragment, null,
