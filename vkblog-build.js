@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -34,7 +34,16 @@ document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString
   month: 'long',
   day: '2-digit'
 });
-window.h = React.createElement;
+document.querySelector('div.description').textContent += '(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')';
+window.h = React.createElement; // a and b are javascript Date objects
+
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.floor((utc2 - utc1) / 86400000);
+}
+
 window.jsonpRequestId = 0;
 
 function jsonp(uri) {

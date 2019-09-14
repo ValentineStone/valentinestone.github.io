@@ -1,8 +1,25 @@
 'use strict';
 
-document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' })
+document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString('ru-RU', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: '2-digit'
+})
+
+document.querySelector('div.description').textContent +=
+'(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')'
 
 window.h = React.createElement
+
+// a and b are javascript Date objects
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())
+
+  return Math.floor((utc2 - utc1) / 86400000)
+}
 
 window.jsonpRequestId = 0
 function jsonp(uri) {
