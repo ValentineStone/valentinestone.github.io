@@ -34,7 +34,7 @@ document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString
   month: 'long',
   day: '2-digit'
 });
-document.querySelector('div.description').textContent += '(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')';
+document.querySelector('div.description').textContent = '(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')';
 window.h = React.createElement; // a and b are javascript Date objects
 
 function dateDiffInDays(a, b) {

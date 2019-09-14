@@ -7,7 +7,7 @@ document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString
   day: '2-digit'
 })
 
-document.querySelector('div.description').textContent +=
+document.querySelector('div.description').textContent =
 '(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')'
 
 window.h = React.createElement
