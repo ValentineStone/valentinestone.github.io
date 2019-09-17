@@ -87,9 +87,9 @@ function PostRenderer(date, render) {
 }
 
 function renderPost(post) {
-  console.log(post.date);
+  console.log(post);
 
-  if (post.text) {
+  if (post && typeof post === 'object' && post.text) {
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -97,7 +97,7 @@ function renderPost(post) {
     try {
       for (var _iterator = postRenderers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var postRenderer = _step.value;
-        if (console.log(postRenderer.date, post.date, postRenderer.date < post.date), postRenderer.date < post.date) return postRenderer.render(post);
+        if (postRenderer.date < post.date) return postRenderer.render(post);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -115,7 +115,7 @@ function renderPost(post) {
     }
 
     return defaultPostRenderer(post);
-  } else return null;
+  } else return debugPostRenderer(post);
 }
 
 var App =
@@ -168,6 +168,21 @@ function defaultPostRenderer(post) {
   var text = post.text;
   var desc = 'Без названия.';
   return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', null, text));
+}
+
+function debugPostRenderer(post) {
+  var date = new Date(post && typeof post === 'object' && post.date ? post.date * 1000 : undefined).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  });
+  if (post && typeof post === 'object' && post.date) date = date.charAt(0).toUpperCase() + date.substring(1);else date = 'Сегодня ' + date;
+  var text = JSON.stringify(post, null, 2);
+  var desc = 'Что-то не так ¯\\(°_o)/¯';
+  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', {
+    className: 'code'
+  }, text));
 }
 
 PostRenderer('2019-09-09', function (post) {

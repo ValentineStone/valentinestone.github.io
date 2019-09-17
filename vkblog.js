@@ -8,7 +8,7 @@ document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString
 })
 
 document.querySelector('div.description').textContent =
-'(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')'
+  '(Упражнения в мышлении, день ' + dateDiffInDays(new Date(), new Date(2019, 11, 18)) + ')'
 
 window.h = React.createElement
 
@@ -55,14 +55,14 @@ function PostRenderer(date, render) {
 }
 
 function renderPost(post) {
-  console.log(post.date)
-  if (post.text) {
+  console.log(post)
+  if (post && typeof post === 'object' && post.text) {
     for (let postRenderer of postRenderers)
-      if (console.log(postRenderer.date, post.date, postRenderer.date < post.date), postRenderer.date < post.date)
+      if (postRenderer.date < post.date)
         return postRenderer.render(post)
     return defaultPostRenderer(post)
   }
-  else return null
+  else return debugPostRenderer(post)
 }
 
 
@@ -106,6 +106,31 @@ function defaultPostRenderer(post) {
       h('small', null, date)
     ),
     h('dd', null, text)
+  )
+}
+
+function debugPostRenderer(post) {
+  let date = new Date(
+    post && typeof post === 'object' && post.date ? post.date * 1000 : undefined
+  ).toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  })
+  if (post && typeof post === 'object' && post.date)
+    date = date.charAt(0).toUpperCase() + date.substring(1)
+  else
+    date = 'Сегодня ' + date
+  let text = JSON.stringify(post, null, 2)
+  let desc = 'Что-то не так ¯\\(°_o)/¯'
+  return h(React.Fragment, null,
+    h('dt', null,
+      h('strong', null, desc),
+      h('br', null),
+      h('small', null, date)
+    ),
+    h('dd', { className: 'code' }, text)
   )
 }
 

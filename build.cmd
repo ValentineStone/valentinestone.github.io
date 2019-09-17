@@ -1,0 +1,1 @@
+babel vkblog.js -o vkblog-build.js
