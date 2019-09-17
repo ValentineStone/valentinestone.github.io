@@ -110,6 +110,7 @@ function defaultPostRenderer(post) {
 }
 
 function debugPostRenderer(post) {
+  return null
   let date = new Date(
     post && typeof post === 'object' && post.date ? post.date * 1000 : undefined
   ).toLocaleDateString('ru-RU', {

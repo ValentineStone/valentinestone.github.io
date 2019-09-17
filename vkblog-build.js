@@ -171,6 +171,7 @@ function defaultPostRenderer(post) {
 }
 
 function debugPostRenderer(post) {
+  return null;
   var date = new Date(post && typeof post === 'object' && post.date ? post.date * 1000 : undefined).toLocaleDateString('ru-RU', {
     weekday: 'long',
     year: 'numeric',
