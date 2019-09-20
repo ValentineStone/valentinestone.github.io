@@ -12,10 +12,11 @@
     line-height: 1.3;
   }
 
-  ul, ol {
+  ul,
+  ol {
     list-style-position: inside;
     padding: 0;
-    margin: 0  0 0.5em 0;
+    margin: 0 0 0.5em 0;
     margin-block-start: 0;
     margin-block-end: 0;
     padding-inline-start: 0;
@@ -36,12 +37,13 @@
     padding-left: 0.7em;
     padding-top: 0.5em;
   }
-  dl.notes > dd > p {
+
+  dl.notes>dd>p {
     text-indent: 2em;
   }
 
   dl.notes>dd>p {
-    margin: 0  0 0.5em 0;
+    margin: 0 0 0.5em 0;
   }
 
   dl.notes>dt {
@@ -53,24 +55,42 @@
   .title {
     text-align: center;
     margin-bottom: 0;
+    line-height: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
   }
 
   .description {
     text-align: center;
     border-bottom: 1px solid gray;
     margin-bottom: 1em;
+    margin-top: 0.2em;
     padding-bottom: 0.5em;
   }
-  
+
   dl.notes>dd.code {
     white-space: pre-wrap;
     font-size: 0.7em;
     font-family: monospace;
     text-align: initial;
   }
+  a.link {
+    text-decoration: none;
+    font-size: 0.6em;
+    position: relative;
+    bottom: 0.2em;
+  }
+  a.link-post {
+    text-decoration: none;
+    font-size: 0.7em;
+  }
 </style>
 
-<h1 class="title">Заметки странника</h1>
+<div class="title">
+  <span>Заметки странника</span><a class="link" href="https://vk.com/public185337369">🔗</a>,
+  <span class="title-date"></span>
+</div>
 <div class="description"></div>
 
 <div class="app"></div>

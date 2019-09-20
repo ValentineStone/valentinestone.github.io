@@ -28,7 +28,7 @@ function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _co
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-document.querySelector('h1').textContent += ', ' + new Date().toLocaleDateString('ru-RU', {
+document.querySelector('.title-date').textContent = new Date().toLocaleDateString('ru-RU', {
   weekday: 'long',
   year: 'numeric',
   month: 'long',
@@ -222,6 +222,9 @@ PostRenderer('2019-09-13-19', function (post) {
       __html: marked(text)
     }
   };
-  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', textProps));
+  return h(React.Fragment, null, h('dt', null, h('a', {
+    className: 'link-post',
+    href: 'https://vk.com/public185337369?w=wall-185337369_' + post.id
+  }, '🔗 '), h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', textProps));
 });
 ReactDOM.render(h(App, null), document.querySelector('.app'));
