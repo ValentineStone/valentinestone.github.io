@@ -222,9 +222,9 @@ PostRenderer('2019-09-13-19', function (post) {
       __html: marked(text)
     }
   };
-  return h(React.Fragment, null, h('dt', null, h('a', {
+  return h(React.Fragment, null, h('dt', null, h('strong', null, desc), h('a', {
     className: 'link-post',
     href: 'https://vk.com/public185337369?w=wall-185337369_' + post.id
-  }, '🔗 '), h('strong', null, desc), h('br', null), h('small', null, date)), h('dd', textProps));
+  }), h('br', null), h('small', null, date)), h('dd', textProps));
 });
 ReactDOM.render(h(App, null), document.querySelector('.app'));

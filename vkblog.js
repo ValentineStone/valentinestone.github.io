@@ -175,8 +175,8 @@ PostRenderer('2019-09-13-19', post => {
   let textProps = { dangerouslySetInnerHTML: { __html: marked(text) } }
   return h(React.Fragment, null,
     h('dt', null,
-      h('a', { className: 'link-post', href: 'https://vk.com/public185337369?w=wall-185337369_' + post.id }, '🔗 '),
       h('strong', null, desc),
+      h('a', { className: 'link-post', href: 'https://vk.com/public185337369?w=wall-185337369_' + post.id }),
       h('br', null),
       h('small', null, date)
     ),
