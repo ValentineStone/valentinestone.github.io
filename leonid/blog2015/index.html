@@ -21,11 +21,19 @@
 			src="links.html"
 			style="position:fixed; top:0px; left:0px; width:20%; height:100%;"
 		></iframe>
-		<iframe
-			id="page_iframe"
-			name="page_iframe"
-			style="position:fixed; top:0px; right:0px; width:79.3%; height:100%;"
-		></iframe>
+		<div style="
+			position:fixed;
+			top:0px; right:0px;
+			width:79.3%;
+			height:100%;
+			overflow-y: scroll;
+		">
+			<iframe
+				id="page_iframe"
+				name="page_iframe"
+				style="width:100%;"
+			></iframe>
+		</div>
 		<script defer>
 			var anything = location.search.substring(1);
 			if (anything)
