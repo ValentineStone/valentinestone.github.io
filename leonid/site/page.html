@@ -2,7 +2,7 @@
 
 <body>
 	<h1 id="title"></h1>
-	<pre id="text" style="font-size: 15pt; font-family: 'Times New Roman', Times, serif"></pre>
+	<pre id="text" style="font-size: 15pt; font-family: 'Times New Roman', Times, serif; white-space: pre-wrap"></pre>
 	<script defer>
 		document.getElementById("title").textContent = location.search.substring(1, location.search.length-4);
 		var xhr = new XMLHttpRequest();
