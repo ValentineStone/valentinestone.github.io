@@ -1,0 +1,24 @@
+<html>
+
+<body>
+	<h1 id="title"></h1>
+	<p id="text" style="font-size: 15pt;"></p>
+	<script defer>
+		document.getElementById("title").textContent = location.search.substring(1, location.search.length-4)
+		var xhr = new XMLHttpRequest()
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				document.getElementById("text").textContent = xhr.responseText;
+			}
+		};
+		xhr.open("GET",
+			"https://raw.githubusercontent.com/ValentineStone/valentinestone.github.io/master"
+			+ location.pathname
+			+ location.search.substring(1)
+		);
+		xhr.send();
+	</script>
+
+</body>
+
+</html>
