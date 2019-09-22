@@ -27,7 +27,7 @@
 			style="position:fixed; top:0px; right:0px; width:79.3%; height:100%;"
 		></iframe>
 		<script defer>
-			var anything = location.search.substring(1, location.search.length-4);
+			var anything = location.search.substring(1);
 			if (anything)
 			document.getElementById("page_iframe").src = "page.html?" + anything;
 		</script>
