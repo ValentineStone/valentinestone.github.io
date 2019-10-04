@@ -58,7 +58,7 @@
     text-transform: uppercase;
     text-align: center;
     text-indent: 0;
-    counter-increment: none
+    counter-increment: none;
   }
   .doc h1.section::before { content: none }
 
@@ -68,10 +68,11 @@
   }
   .doc img + div {
     text-align: center;
-    counter-increment: img
+    counter-increment: img;
   }
   .doc img + div::before {
-    content: "Рисунок " counter(img) " — "
+    font: inherit;
+    content: "Рисунок " counter(img) " — ";
   }
   .doc figure {
     break-inside: avoid;
@@ -80,10 +81,11 @@
 
   .doc figure.img figcaption {
     text-align: center;
-    counter-increment: img
+    counter-increment: img;
   }
   .doc figure.img figcaption::before {
-    content: "Рисунок " counter(img) " — "
+    font: inherit;
+    content: "Рисунок " counter(img) " — ";
   }
 
   .doc figure.table figcaption {
@@ -91,7 +93,8 @@
     counter-increment: table;
   }
   .doc figure.table figcaption::before {
-    content: "Таблица " counter(table) " — "
+    font: inherit;
+    content: "Таблица " counter(table) " — ";
   }
   .doc th, .doc td  {
     font-weight: normal;
@@ -119,7 +122,7 @@
   </h1>
 
   <figure class="img">
-    <img src="me.jpg" style="width:70mm">
+    <img src="me.jpg" style="width:70mm; max-width:50%;">
     <figcaption>Автопортрет в одноглазых очках</figcaption>
   </figure>
 
