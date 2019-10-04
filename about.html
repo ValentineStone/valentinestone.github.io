@@ -1,0 +1,124 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @page {
+    size: 210mm 297mm;
+    margin: 20mm 10mm 20mm 30mm;
+    counter-increment: page;
+    @bottom-center { content: counter(page) }
+  }
+  .doc {
+    margin: 0 auto;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14pt;
+    max-width: 165mm;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .doc p {
+    text-indent: 4em;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+  }
+  .doc h1,
+  .doc h2,
+  .doc h3,
+  .doc h4,
+  .doc h5,
+  .doc h6 {
+    text-indent: 4em;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  .doc h1 { font-weight: bold }
+  .doc h2 { font-weight: bold }
+  .doc h3 { font-weight: bold }
+  .doc h4 { font-weight: bold }
+  .doc h5 { font-weight: bold }
+  .doc h6 { font-weight: bold }
+
+  .doc h1 { counter-increment: h1 }
+  .doc h2 { counter-increment: h2 }
+  .doc h3 { counter-increment: h3 }
+  .doc h4 { counter-increment: h4 }
+  .doc h5 { counter-increment: h5 }
+  .doc h6 { counter-increment: h6 }
+
+  .doc h1::before { content:counter(h1) " " }
+  .doc h2::before { content:counter(h1) "." counter(h2) " " }
+  .doc h3::before { content:counter(h1) "." counter(h2) "." counter(h3) " " }
+  .doc h4::before { content:counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) " " }
+  .doc h5::before { content:counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " " }
+  .doc h6::before { content:counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " " }
+
+  .doc h1.section {
+    text-transform: uppercase;
+    text-align: center;
+    text-indent: 0;
+    counter-increment: none
+  }
+  .doc h1.section::before { content: none }
+
+  .doc img {
+    display: block;
+    margin: 0 auto;
+  }
+  .doc img + div {
+    text-align: center;
+    counter-increment: img
+  }
+  .doc img + div::before {
+    content: "Рисунок " counter(img) " — "
+  }
+  .doc figure {
+    break-inside: avoid;
+    margin: 0;
+  }
+
+  .doc figure.img figcaption {
+    text-align: center;
+    counter-increment: img
+  }
+  .doc figure.img figcaption::before {
+    content: "Рисунок " counter(img) " — "
+  }
+
+  .doc figure.table figcaption {
+    text-align: left;
+    counter-increment: table;
+  }
+  .doc figure.table figcaption::before {
+    content: "Таблица " counter(table) " — "
+  }
+  .doc th, .doc td  {
+    font-weight: normal;
+    border: 1px solid black;
+    text-align: justify;
+
+  }
+
+  .doc table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+
+</style>
+<div class="doc">
+
+  <h1 class="section" style="text-decoration: underline; font-size:24pt">Curriculum vitæ</h1>
+
+  <figure class="img">
+    <img src="me.jpg" style="width:70mm">
+    <figcaption>Автопортрет в одноглазых очках</figcaption>
+  </figure>
+
+  <h1>Введение</h1>
+  <p>
+    Прежде чем приступить к описанию моих приключений и творческих проектов
+  </p>
+
+</div>
