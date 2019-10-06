@@ -62,35 +62,31 @@
   }
   .doc h1.section::before { content: none }
 
-  .doc img {
-    display: block;
-    margin: 0 auto;
-  }
-  .doc img + div {
-    text-align: center;
-    counter-increment: img;
-  }
-  .doc img + div::before {
-    font: inherit;
-    content: "Рисунок " counter(img) " — ";
-  }
   .doc figure {
     break-inside: avoid;
     margin: 0;
   }
 
+  .doc img {
+    display: block;
+    margin: 0 auto;
+  }
+  .doc figure.img {
+    counter-increment: img;
+  }
   .doc figure.img figcaption {
     text-align: center;
-    counter-increment: img;
   }
   .doc figure.img figcaption::before {
     font: inherit;
     content: "Рисунок " counter(img) " — ";
   }
 
+  .doc figure.table {
+    counter-increment: table;
+  }
   .doc figure.table figcaption {
     text-align: left;
-    counter-increment: table;
   }
   .doc figure.table figcaption::before {
     font: inherit;
@@ -139,4 +135,5 @@
     компьютерных наук.
     -->
 
+    <p>Продолжение следует...
 </div>
