@@ -138,7 +138,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      jsonp('https://api.vk.com/method/wall.get/?extended=1&filter=owner&owner_id=-185337369&v=5.101&access_token=ab07454bab07454bab07454bdcab6b0233aab07ab07454bf654c0781053e5f1a1c59472').then(function (v) {
+      jsonp('https://api.vk.com/method/wall.get/?extended=1&filter=owner&count=100&owner_id=-185337369&v=5.101&access_token=ab07454bab07454bab07454bdcab6b0233aab07ab07454bf654c0781053e5f1a1c59472').then(function (v) {
         return _this2.setState(v);
       });
     }
