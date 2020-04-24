@@ -1,0 +1,68 @@
+<style>body, html { margin: 0 }</style>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<iframe
+    frameborder="0"
+    width="100%"
+    height="100%"
+></iframe>
+<script defer>'use strict'
+
+var iframe = document.querySelector('iframe')
+var filename = location.search.substr(1)
+iframe.addEventListener('load', on_iframe_load)
+
+var comments = []
+
+function on_iframe_load() {
+    var idocument = iframe.contentWindow.document
+    var style = idocument.createElement('style')
+    style.innerHTML = '\
+        code {\
+            font-family: monospace;\
+            background: #f1f1f1;\
+        }\
+        .notion-page-content {\
+            margin: 0 auto;\
+            max-width: 900px !important;\
+        }\
+        .notion-numbered_list-block-comment {\
+            border: 1px solid lightgray;\
+            border-top: 5px solid lightgray;\
+            margin: 1em;\
+            padding: 1em;\
+            background:\
+        }'
+    idocument.head.appendChild(style)
+
+    idocument.querySelectorAll('.notion-numbered_list-block').forEach(function (element, index) {
+        var div = idocument.createElement('div')
+        div.className = 'notion-numbered_list-block-comment'
+        if (index < comments.length)
+            comments[index].forEach(function (e) { div.append(e) })
+        element.after(div)
+    })
+}
+
+var xhr = new XMLHttpRequest()
+xhr.addEventListener('load', on_comments_load)
+xhr.open('get', filename + '.md')
+xhr.send()
+
+function on_comments_load() {
+    var div = document.createElement('div')
+    div.innerHTML = marked(this.responseText)
+    
+    var bunch = []
+    for (var i = 0; i < div.childNodes.length; i++) {
+        if (div.childNodes[i] instanceof HTMLHRElement)
+            comments.push(bunch = [])
+        else
+            bunch.push(div.childNodes[i])
+    }
+    console.log(comments)
+
+    iframe.src = filename + '.html'
+}
+
+
+</script>
