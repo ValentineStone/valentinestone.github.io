@@ -1,0 +1,141 @@
+<!doctype html>
+<style>
+    canvas {
+        top: 0;
+        left: 0;
+        position: fixed;
+    }
+</style>
+<canvas></canvas>
+<script defer type="module">
+
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    function resize() {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+    }
+
+    window.addEventListener('resize', resize)
+    resize()
+
+    class Rect {
+        constructor(x,y,w,h, color) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+        }
+        render(ctx, d) {
+            ctx.strokeStyle = this.color
+            ctx.strokeRect(this.x + d * this.dx, this.y + d*this.dy, this.w, this.h)
+        }
+        update() {}
+    }
+
+    class Bouncer extends Rect {
+        constructor(x,y,w,h,dx,dy, color) {
+            super(x,y,w,h, color)
+            this.dx = dx
+            this.dy = dy
+        }
+        update(game) {
+           this.x += this.dx 
+           this.y += this.dy
+
+            if (this.x < 0) {
+                this.x = 0
+                this.dx *= -1
+            }
+            if (this.y < 0) {
+                this.y = 0
+                this.dy *= -1
+            }
+            if (this.x + this.w > game.canvas.width) {
+                this.x = game.canvas.width - this.w
+                this.dx *= -1
+            }
+            if (this.y + this.h > game.canvas.height) {
+                this.y = game.canvas.height - this.h
+                this.dy *= -1
+            }
+            let foundSelf = false
+            for (const entity of game.entities) {
+                if (!foundSelf) {
+                    if (entity == this)
+                        foundSelf = true
+                    continue
+                }
+                else
+                    this.bounceOff(entity)
+            }
+        }
+        bounceOff(other) {
+            if (this.x < other.x + other.w &&
+                this.x + this.w > other.x &&
+                this.y < other.y + other.h &&
+                this.y + this.h > other.y
+            ) {
+                if (Math.abs(this.x - other.x) > Math.abs(this.y - other.y))
+                    [this.dx, other.dx] = [other.dx, this.dx]
+                else
+                    [this.dy, other.dy] = [other.dy, this.dy]
+            }
+        }
+        randomize(game) {
+            this.w = Math.random() * 10 + 10
+            this.h = Math.random() * 10 + 10
+            this.x = Math.random() * game.canvas.width
+            this.y = Math.random() * game.canvas.height
+            this.color = `rgb(${Math.round(Math.random()*256)}, ${Math.round(Math.random()*256)}, ${Math.round(Math.random()*256)})`
+            this.dx = (Math.random() * 3 + 3) * (Math.random() > 0.5 ? -1 : 1)
+            this.dy = (Math.random() * 3 + 3) * (Math.random() > 0.5 ? -1 : 1)
+            return this
+        }
+    }
+
+    class Game {
+        constructor(canvas, ctx) {
+            this.canvas = canvas
+            this.ctx = ctx
+            this.entities = []
+            this.UPS = 50
+
+            this.background = '#202020'
+
+            for (let i = 0; i < 200; i++)
+                this.entities.push(new Bouncer().randomize(this))
+        }
+        update() {
+            this.lastUpdated = performance.now()
+            for (let entity of this.entities)
+                entity.update(this)
+        }
+        render(ctx) {
+            this.delta = (performance.now() - this.lastUpdated) / this.UPS
+            ctx.fillStyle = this.background
+            ctx.fillRect(0,0,canvas.width,canvas.height)
+            for (let entity of this.entities)
+                entity.render(ctx, this.delta)
+        }
+    }
+
+    const game = new Game(canvas, ctx)
+
+
+
+    function render() {
+        game.render(ctx)
+        requestAnimationFrame(render)
+    }
+
+    function update() {
+        game.update()
+    }
+
+    requestAnimationFrame(render)
+    setInterval(update, game.UPS)
+
+</script>
