@@ -35,9 +35,9 @@ class App extends React.Component {
   componentDidMount() {
     fetch(
       `https://www.googleapis.com/drive/v3/files?q=%27${folder}%27+in+parents&key=${apikey}`,
-    ).then(r => r.json()).then(r => {
-      r.files.sort((f1, f2) => f1.name < f2.name ? 1 : -1)
-      this.setState(r)
+    ).then(r => r.json()).then(v => {
+      v.files.sort((f1, f2) => f1.name < f2.name ? 1 : -1)
+      this.setState(v)
     })
   }
   render() {
