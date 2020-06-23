@@ -70,7 +70,6 @@ class Post extends React.Component {
       `https://www.googleapis.com/drive/v2/files/${this.props.id}?key=${apikey}`
     ).then(r => r.json()).then(v => this.setState({ info: v }))
   }
-
   render() {
     let info = this.state.info
     let created  = info ? niceDate2(info.createdDate)  : this.props.name.slice(0, 10)
