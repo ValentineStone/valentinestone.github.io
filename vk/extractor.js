@@ -39,6 +39,39 @@ function timestamp(year, month, day, ...rest) {
   return timestamp;
 }
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
+  }
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error, errorInfo })
+  }
+  render() {
+    if (this.state.hasError) {
+      if (this.state.error) {
+        return h(React.Fragment, null,
+          h('div', { style: { color: 'red' } }, 'Error:'),
+          h('pre', null, JSON.stringify(this.state.error) ),
+        )
+      }
+      else {
+        return h(React.Fragment, null,
+          h('div', { style: { color: 'red' } }, 'Error:'),
+          h('pre', null, JSON.stringify(this.state.error) ),
+          h('hr'),
+          h('pre', null, JSON.stringify(this.state.errorInfo) ),
+        )
+      }
+    }
+    else
+      return this.props.children 
+  }
+}
+
 
 class App extends React.Component {
   constructor(props) {
@@ -56,7 +89,7 @@ class App extends React.Component {
     ).then(v => {
       this.loadedCount += v.response.items.length
       this.setState({ slices: [...this.state.slices, v] })
-      console.log(v)
+      //console.log(v)
       if (v.response.count > this.loadedCount)
         setTimeout(() => this.loadPosts())
     })
@@ -86,7 +119,7 @@ class Post extends React.Component {
     const desc = 'No name'
     const attachments = post.attachments || []
     return h(React.Fragment, null,
-      h('dt', null,
+      h('dt', { id: post.id },
         h('strong', null, desc),
         h('a', { className: 'link-post', href: 'https://vk.com/wall74762672_' + post.id }),
         h('br', null),
@@ -100,54 +133,83 @@ class Post extends React.Component {
   }
 }
 
-function make_srcset(sizes) {
-  return sizes.map(v => v.url + ' ' + v.width + 'w').join(',')
+function make_srcset_old(sizes) {
+  let s = {}
+  for (let v of sizes) s[v.type] = (v.url||v.src)
+  return s.w || s.z || s.y || s.x || s.m || s.s
 }
-function make_srcset_for_doc(sizes) {
-  return sizes.map(v => v.src + ' ' + v.width + 'w').join(',')
+
+function make_srcset(sizes) {
+  return sizes.map(v => v.width ? (v.url||v.src) + ' ' + v.width + 'w' : (v.url||v.src)).join(', ')
 }
 
 class Attachment extends React.Component {
   render() {
     const v = this.props.value
     switch (v.type) {
-      case 'photo': return this.renderPhoto()
-      case 'doc': return this.renderDoc()
-      default: return this.renderDefault()
+      case 'photo': return AttachmentPhoto(this.props.value)
+      case 'doc': return AttachmentDoc(this.props.value)
+      case 'audio': return AttachmentAudio(this.props.value)
+      case 'link': return AttachmentLink(this.props.value.link)
+      default: return AttachmentDefault(this.props.value)
     }
   }
+}
 
-  renderPhoto() {
-    const v = this.props.value
-    return h('img', { srcSet: make_srcset(v.photo.sizes) })
+function AttachmentPhoto(v) {
+  if (0 == v.photo.sizes[0].width) // old photos, hadled separate
+    return h('img', { className: 'attachment', src: make_srcset_old(v.photo.sizes) })
+  else
+    return h('img', { className: 'attachment', srcSet: make_srcset(v.photo.sizes) })
+}
+function AttachmentDoc(v) {
+  switch (v.doc.type) {
+    case 4: return AttachmentDocPhoto(v)
+    default: return AttachmentDocDefault(v)
   }
-  renderDoc() {
-    const v = this.props.value
-    switch (v.doc.type) {
-      case 4: return this.renderDocPhoto()
-      default: return this.renderDocDefault()
-    }
+}
+function AttachmentDoc(v) {
+  switch (v.doc.type) {
+    case 4: return AttachmentDocPhoto(v)
+    default: return AttachmentDocDefault(v)
   }
-  renderDocPhoto() {
-    const v = this.props.value
-    return h('img', { srcSet: make_srcset_for_doc(v.doc.preview.photo.sizes) })
-  }
-  renderDocDefault() {
-    const v = this.props.value
-    return h('div', null,
-      h('small', null,
-        'Attachment doc(' + v.doc.type + ')'
-      )
+}
+function AttachmentDocPhoto(v) {
+  if (0 == v.doc.preview.photo.sizes[0].width) // old photos, hadled separate
+    return h('img', { className: 'attachment', src: v.doc.url})
+  else
+    return h('img', { className: 'attachment', srcSet: make_srcset(v.doc.preview.photo.sizes) })
+}
+
+function AttachmentDocDefault(v) {
+  return h('div', { className: 'attachment' },
+    h('small', null,
+      'Attachment doc(' + v.doc.type + ')'
     )
-  }
-  renderDefault() {
-    const v = this.props.value
-    return h('div', null,
-      h('small', null,
-        'Attachment ' + v.type
-      )
+  )
+}
+function AttachmentAudio(v) {
+  return h('div', { className: 'attachment' },
+    h('small', null,
+      'Attachment ' + v.type
     )
-  }
+  )
+}
+function AttachmentLink(v) {
+  return h('div', {className: 'box attachment'},
+    v.title,
+    h('br'),
+    ...(v.description ? [h('small', null, v.description), h('br')] : []),
+    h('small', null, h('a', { href: v.url }, v.url)),
+  )
+}
+function AttachmentDefault(v) {
+  //console.log(v)
+  return h('div', null,
+    h('small', null,
+      'Attachment ' + v.type
+    )
+  )
 }
 
 
