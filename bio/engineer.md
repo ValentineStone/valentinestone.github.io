@@ -82,8 +82,6 @@ I absolutely ❤️ it.
 Thus, my interest in these two concepts of **modularity** and **interactivity**
 laid the foundation for my personal project for years to come.
 
----
-
 # School
 
 In school I continued developing my web dev skillset and picked up robotics as a
@@ -109,32 +107,56 @@ add custom cool interactivity to the website.
 
 ## Of Machines and GUIs
 
+tl;dr: Once I saw a photo promoting our school's Lego Midstroms robotics club,
+joined and it was hella fun, i got secong place at our city only because my
+robot's epic arm fell of out of nowhere, but was still chosen to represent my
+city on the reginal competition by the commitee because my robot was better, but
+did not perticipate because the new robot that I had to create for the regional
+competition was not coming along and I, understanding that it would not be ready
+in time refused to perticipate with what would essentialy be just a car and not
+a propper robot that would be able to complete the obstacle course. Phew, that
+was uttered in one breath)
+
 ![](robolab.png)
 
 ![](rcx.png)
 
-## Of Pascal and records
+## Of Pascal and Delphi
 
-During my time in middleschool I helped my teacher out with the school's website
-and ended up in the afterschool programming class. We learned Pascal. And i went
-out and bought myself this bad boy. 
+Having helped my teacher out with the school's website I ended up in an
+afterschool programming class. We learned Pascal. And i went out and bought
+myself this bad boy:
 
 ![](b6.jpg)
 
-It is by far one of my favorite books on programming I've ever owned a
-phisical copy of. One reason: it's structured as a reference. At a glance I
-could look up some concept or syntax and implement it. This book really cemented
-my learning style, I learn by playing with things, I just look at them and try
-to implement whatever cool ideas I have, and then later through polishing
-personal projects and leasure time reading perfect the concepts and their
-implementations.
+It is by far one of my favorite books on programming I've ever owned a phisical
+copy of. One reason: it's structured as a reference. At a glance I could look up
+some concept or syntax and implement it. This book really cemented my learning
+style, I learn by playing with things, I just look at them and try to implement
+whatever cool ideas I have, and then later through polishing personal projects
+and leasure time reading perfect the concepts and their implementations.
+
+Having learned Pascal ahead of the school course I basicaly had nothing to do on
+out Informatics class by the time my classmates were leraning programming, so to
+the annoyance of everybody in the class I just fooled around in Delphi creating
+all sorts of crazy interface and projects. It was the legendary Borland Delphi 7
+and also look back fondly at that time that I got be a part of what would go on
+to attain a cult status among developers.
 
 ![](delphi-logo.png)
 
 ![](delphi.png)
 
 ## Lucky me, or the tale of 2 PCs
-I got a laptop and a desktop
+At the age of 14 I got a laptop and a desktop almost at the same time. They were
+my fisrt personal computers, no longer did I have to hang around at school or in
+the city library or beg father to let me use his slow-ass laptop. I had my own
+shit now. And most inportantly I had 2 of them. That allowed to make my laptop a
+fortress of stability rocking a Windows 7 and turn my desktop into a platform
+for all sorts of experiments spaning from installing every os under the sun to
+fooling around with all sorts of hardware I acuired from relatives and random
+people I knew. I still have 2 bricked HDD's lying around from that time, maybe
+I'll get them restored at some point 🤔
 
 ### How I tried to "install" Gentoo Linux at the age of 14
 Oh boi is that a story or what! Anyone who knows anything about Linux knows,
@@ -142,8 +164,13 @@ Gentoo aint' no joke to install. Now imagine a kid who have never even installed
 Windows going at it. That. Was. Painful.
 
 To be honest I actually didnt manage to pull it off at the time, and, just for
-the record, I actully never installed Gentoo since than because within a couple
-of years I found my peace in the fight of Arch.
+the record, I actually never installed Gentoo ever since than, for within a
+couple of years I found my love and peace in the light of our lord and saviour
+Arch.
+
+Anhow I got myself this book and it became my guide in all things linux for my
+early linux days, however at this point I slowly started transitioning to online
+resources, at first I would print them out tho 🤦
 
 <img style="max-height:280px" src="b7.jpg">
 
