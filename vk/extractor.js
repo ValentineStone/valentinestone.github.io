@@ -133,7 +133,7 @@ class Post extends React.Component {
   }
 }
 
-function make_srcset_old(sizes) {
+function make_src(sizes) {
   let s = {}
   for (let v of sizes) s[v.type] = (v.url||v.src)
   return s.w || s.z || s.y || s.x || s.m || s.s
@@ -157,16 +157,7 @@ class Attachment extends React.Component {
 }
 
 function AttachmentPhoto(v) {
-  if (0 == v.photo.sizes[0].width) // old photos, hadled separate
-    return h('img', { className: 'attachment', src: make_srcset_old(v.photo.sizes) })
-  else
-    return h('img', { className: 'attachment', srcSet: make_srcset(v.photo.sizes) })
-}
-function AttachmentDoc(v) {
-  switch (v.doc.type) {
-    case 4: return AttachmentDocPhoto(v)
-    default: return AttachmentDocDefault(v)
-  }
+  return h('img', { className: 'attachment', src: make_src(v.photo.sizes) })
 }
 function AttachmentDoc(v) {
   switch (v.doc.type) {
@@ -178,7 +169,7 @@ function AttachmentDocPhoto(v) {
   if (0 == v.doc.preview.photo.sizes[0].width) // old photos, hadled separate
     return h('img', { className: 'attachment', src: v.doc.url})
   else
-    return h('img', { className: 'attachment', srcSet: make_srcset(v.doc.preview.photo.sizes) })
+    return h('img', { className: 'attachment', src: make_src(v.doc.preview.photo.sizes) })
 }
 
 function AttachmentDocDefault(v) {
