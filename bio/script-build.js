@@ -15,7 +15,7 @@ function onReady() {
   document.querySelectorAll('img').forEach(function (img) {
     images.push(img.src);
     img.onclick = toggleLightbox;
-    document.querySelector('hr').scrollIntoView();
+    //document.querySelector('hr').scrollIntoView();
   });
   var lightbox = document.querySelector('#lightbox');
   var lightboxImg = document.createElement('img');
