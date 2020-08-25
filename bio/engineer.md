@@ -20,7 +20,7 @@ It all started with a couple of books...
 ## My first ever programming books
 My dad had these. Actually, he had the first three, to this day I do not know
 where he got them from. I mean I can ask him, but where's the fun in that
-¯\\_(ツ)_/¯. The JavaScript one I asked my dad for after fooling around with the
+¯\\\_(ツ)\_/¯. The JavaScript one I asked my dad for after fooling around with the
 first three. After figuring out how html pages worked, I wanted to make them more
 interactive, and this would prove to be a trend for things I would be interested
 in.
@@ -91,7 +91,21 @@ side hustle of sorts.
 
 ## Of websites
 
+I am quite introverted, and so was a commoner at the library, and having
+expressed unending hunger for computer related books was asked by the librarian
+to help her out with the library's web page on our schools web site. I helped
+her on multiple occasions and soon I was helping out our informatics teacher
+with the entierty of our school site which ran on Narod.ru which is a legendary
+web hosting and templating engine from those early days on runet, I'm proud that
+I happened to be at the right time in the right place to be a part of that
+history.
+
 ![](narod.jpg)
+
+However the school's website was not using Narod's templating engine but rather
+some sort of custom thing said informatics teacher dug up somewhere on the
+internet. My job was to patch things that were broken in unintuitive ways and
+add custom cool interactivity to the website.
 
 ## Of Machines and GUIs
 
@@ -180,7 +194,7 @@ Fullscreen version available [here](/game.html)
 
 <iframe src="/game.html" frameBorder="0" style="width:100%; height:400px"></iframe>
 
-# And my final message would be
+# So far that's all ¯\\\_(ツ)\_/¯
 
 <img style="max-height:280px" src="change-da-world.gif">
 
