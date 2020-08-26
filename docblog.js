@@ -75,18 +75,18 @@ class Post extends React.Component {
     let created  = info ? niceDate2(info.createdDate)  : this.props.name.slice(0, 10)
     let modified = info ? niceDate2(info.modifiedDate) : this.props.name.slice(0, 10)
     let name = this.props.name.slice(10) || 'Untitled ¯\\_(ツ)_/¯'
-    let textProps = {}
+    let html = {}
     if (this.state.html)
-      textProps.dangerouslySetInnerHTML = { __html: this.state.html }
+      html.dangerouslySetInnerHTML = { __html: this.state.html }
     else
-      textProps.children = 'Loading...'
+      html.children = 'Loading...'
     return <>
       <dt id={this.props.id}>
         <strong>{name}</strong>
         <a className={'post-link'} href={'https://docs.google.com/document/d/' + this.props.id + '/edit'} />
         <br/><small>{created} <span style={{fontSize: '0.7em'}}>(edit: {modified})</span></small>
       </dt>
-      <dd {...textProps} />
+      <dd {...html} />
     </>
   }
 }
