@@ -81,7 +81,7 @@ class Post extends React.Component {
     else
       textProps.children = 'Loading...'
     return <>
-      <dt>
+      <dt id={this.props.id}>
         <strong>{name}</strong>
         <a className={'post-link'} href={'https://docs.google.com/document/d/' + this.props.id + '/edit'} />
         <br/><small>{created} <span style={{fontSize: '0.7em'}}>(edit: {modified})</span></small>
