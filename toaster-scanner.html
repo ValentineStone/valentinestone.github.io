@@ -4,19 +4,22 @@
 
 <label>
   Order:
-  <input type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
+  <input id="order" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 <label>
   Drone:
-  <input type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
+  <input id="drone" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 
 <hr/>
 
-VERSION 112343
+VERSION 55757
 
 <script>
+  alert(13)
   function onFileSelected(input) {
+    alert(12)
+    alert(input.id)
     for (const file of input.files) {
       const url = URL.createObjectURL(file)
       alert(url)
@@ -25,5 +28,4 @@ VERSION 112343
       document.body.append(img)
     }
   }
-
 </script>
