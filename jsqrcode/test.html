@@ -46,13 +46,15 @@
 
 <div id="send-group" style="display:none">
 	<input id="secret" class="form-control form-control-lg" type="text" placeholder="Secret">
-	<button type="button" class="btn btn-primary btn-lg btn-block" onclick="placeOrder()">Deliver</button>
+	<button type="button" class="btn btn-lg btn-block btn-primary" onclick="placeOrder()">Deliver</button>
 </div>
 
 <hr /> VERSION 4.3
 
 <script>
 	var secret_input = document.querySelector('#secret')
+	var sendGroup = document.querySelector('#send-group')
+	var button = document.querySelector('button')
 	var drone_data = undefined
 	var order_data = undefined
 	function $(selector, parent) {
@@ -69,7 +71,9 @@
 					order_data = value
 				label.className = 'alert alert-success'
 				if (drone_data && order_data)
-					document.querySelector('#send-group').style.display = ''
+					sendGroup.style.display = ''
+				else
+					sendGroup.style.display = 'display:none'
 			} catch (e) {
 				alert(e)
 				label.className = 'alert alert-danger'
@@ -87,7 +91,15 @@
 		} catch (e) { alert(e) }
 	}
 	function placeOrder() {
-		ajax('wow', console.log, JSON.stringify({ drone_data, order_data, secret: secret_input.value }))
+		ajax('wow', placeOrderCallback, JSON.stringify({ drone_data, order_data, secret: secret_input.value }))
+	}
+	function placeOrderCallback(res) {
+		var xhr = this
+		if (xhr.status === 200)
+			button.className = 'btn btn-lg btn-block btn-success'
+		else
+			button.className = 'btn btn-lg btn-block btn-warning'
+
 	}
 	function ajax(url, callback, data) {
 		var xhr = new XMLHttpRequest()
