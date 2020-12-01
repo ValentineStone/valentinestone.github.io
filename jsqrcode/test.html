@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="bootstrap.min.css">
 
 <script src="grid.js"></script>
 <script src="version.js"></script>
@@ -20,34 +21,50 @@
 <script src="alignpat.js"></script>
 <script src="databr.js"></script>
 
-<label>
+<style>
+	.alert {
+		display: block
+	}
+</style>
+
+<label id="order-label" class="alert alert-primary">
 	Order:
 	<input id="order" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
-<label>
+<label id="drone-label" class="alert alert-primary">
 	Drone:
 	<input id="drone" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 
 <hr />
 
-VERSION 12
+VERSION wow
 
 <script>
-	qrcode.callback = callback
-	function callback(value) {
-		try {
-			alert(value)
-		} catch (e) { alert(e) }
+	function $(selector, parent) {
+		return (parent === undefined ? document : parent).querySelector(selector)
+	}
+	function callback(input) {
+		var label = document.getElementById(input.id + '-label')
+		return function callback(value) {
+			try {
+				if (value instanceof Error) throw value
+				var json = JSON.parse(value)
+				label.className = 'alert alert-success'
+			} catch (e) {
+				alert(e)
+				label.className = 'alert alert-danger'
+			}
+		}
 	}
 	function onFileSelected(input) {
 		try {
 			for (var i = 0; i < input.files.length; i++) {
 				var file = input.files[i]
 				var url = URL.createObjectURL(file)
-				qrcode.decode(url);
+				qrcode.callback = callback(input)
+				qrcode.decode(url)
 			}
 		} catch (e) { alert(e) }
 	}
 </script>
-
