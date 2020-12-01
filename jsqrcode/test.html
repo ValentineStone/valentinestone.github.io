@@ -49,7 +49,7 @@
 	<button type="button" class="btn btn-primary btn-lg btn-block" onclick="placeOrder()">Deliver</button>
 </div>
 
-<hr /> VERSION 4.5
+<hr /> VERSION 4.3
 
 <script>
 	var secret_input = document.querySelector('#secret')
@@ -63,11 +63,10 @@
 		return function callback(value) {
 			try {
 				if (value instanceof Error) throw value
-				var parsed = JSON.parse(value)
 				if (input.id === 'drone')
-					drone_data = parsed
+					drone_data = value
 				else
-					order_data = parsed
+					order_data = value
 				label.className = 'alert alert-success'
 				if (drone_data && order_data)
 					document.querySelector('#send-group').style.display = ''
