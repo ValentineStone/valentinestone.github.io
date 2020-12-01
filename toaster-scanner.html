@@ -13,13 +13,22 @@
 
 <hr/>
 
-VERSION 55757
+VERSION 123412341234
 
 <script>
-  alert(13)
+  function str(v) {
+    var line
+    if (v && typeof v === 'object')
+    for (var key in v)
+      line += key + ': ' + str(v[key]) + ', '
+    else if (typeof v === 'function')
+      line = String(v)
+    else
+      line = JSON.stringify(v)
+    return line
+  }
   function onFileSelected(input) {
-    alert(12)
-    alert(input.id)
+    alert(str(input))
     for (const file of input.files) {
       const url = URL.createObjectURL(file)
       alert(url)
