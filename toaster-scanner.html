@@ -13,7 +13,7 @@
 
 <hr />
 
-VERSION err
+VERSION err2
 
 <script>
   try {
@@ -22,7 +22,7 @@ VERSION err
         var line
         if (v && typeof v === 'object')
           for (var key in v)
-            line += key + ': ' + str(v[key]) + ', '
+            line += key + ': ' + String(v[key]) + ', '
         else if (typeof v === 'function')
           line = String(v)
         else
