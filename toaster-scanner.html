@@ -16,34 +16,12 @@
 VERSION sdfff
 
 <script>
-  try {
-    function str(v) {
-      try {
-        var line
-        if (v && typeof v === 'object')
-          for (var key in v)
-            line += key + ': ' + String(v[key]) + ', '
-        else if (typeof v === 'function')
-          line = String(v)
-        else
-          line = JSON.stringify(v)
-        return line
-      } catch (e) { alert(e) }
-    }
-    function onFileSelected(input) {
-      try {
-        alert(str(input))
-        for (var i = 0; i < input.files.length; i++) {
-          var file = input.files[i]
-          var url = URL.createObjectURL(file)
-          alert(url)
-          var img = document.createElement('img')
-          img.src = url
-          document.body.append(img)
-        }
-      } catch (e) { alert(e) }
-    }
-  } catch (e) { alert(e) }
+  function onFileSelected(input) {
+    try {
+      for (var i = 0; i < input.files.length; i++) {
+        var file = input.files[i]
+        var url = URL.createObjectURL(file)
+      }
+    } catch (e) { alert(e) }
+  }
 </script>
-
-
