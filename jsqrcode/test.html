@@ -36,11 +36,15 @@
 	<input id="drone" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 
+<button type="button" style="display:none" class="btn btn-primary btn-lg btn-block">Deliver</button>
+
 <hr />
 
 VERSION wow
 
 <script>
+	var drone_data = undefined
+	var order_data = undefined
 	function $(selector, parent) {
 		return (parent === undefined ? document : parent).querySelector(selector)
 	}
@@ -49,8 +53,13 @@ VERSION wow
 		return function callback(value) {
 			try {
 				if (value instanceof Error) throw value
-				var json = JSON.parse(value)
-				label.className = 'alert alert-success'
+				var parsed = JSON.parse(value)
+				if (input.id === 'drone')
+					drone_data = parsed
+				else
+					order_data = parsed
+				if (drone_data && order_data)
+					document.querySelector('button').style = ''
 			} catch (e) {
 				alert(e)
 				label.className = 'alert alert-danger'
