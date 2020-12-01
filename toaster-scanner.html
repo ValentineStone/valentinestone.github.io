@@ -11,33 +11,36 @@
   <input id="drone" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 
-<hr/>
+<hr />
 
-VERSION 125
+VERSION err
 
 <script>
-  console.log = alert
-  console.error = alert
-  console.debug = alert
-  function str(v) {
-    var line
-    if (v && typeof v === 'object')
-    for (var key in v)
-      line += key + ': ' + str(v[key]) + ', '
-    else if (typeof v === 'function')
-      line = String(v)
-    else
-      line = JSON.stringify(v)
-    return line
-  }
-  function onFileSelected(input) {
-    alert(str(input))
-    for (const file of input.files) {
-      const url = URL.createObjectURL(file)
-      alert(url)
-      const img = document.createElement('img')
-      img.src = url
-      document.body.append(img)
+  try {
+    function str(v) {
+      try {
+        var line
+        if (v && typeof v === 'object')
+          for (var key in v)
+            line += key + ': ' + str(v[key]) + ', '
+        else if (typeof v === 'function')
+          line = String(v)
+        else
+          line = JSON.stringify(v)
+        return line
+      } catch (e) { alert(e) }
     }
-  }
+    function onFileSelected(input) {
+      try {
+        alert(str(input))
+        for (const file of input.files) {
+          const url = URL.createObjectURL(file)
+          alert(url)
+          const img = document.createElement('img')
+          img.src = url
+          document.body.append(img)
+        }
+      } catch (e) { alert(e) }
+    }
+  } catch (e) { alert(e) }
 </script>
