@@ -14,9 +14,11 @@
 <script>
   function onFileSelected(input) {
     for (const file of input.files) {
-      alert(URL.createObjectURL(file))
-      //const image = document.createElement('img')
-      //image.src = URL.createObjectURL(file)
+      const url = URL.createObjectURL(file)
+      alert(url)
+      const img = document.createElement('img')
+      img.src = url
+      document.body.append(img)
     }
   }
 
