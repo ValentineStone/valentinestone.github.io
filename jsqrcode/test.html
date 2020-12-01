@@ -25,6 +25,14 @@
 	.alert {
 		display: block
 	}
+
+	.form-control {
+		margin-bottom: 1rem;
+	}
+
+	body {
+		padding: 1em;
+	}
 </style>
 
 <label id="order-label" class="alert alert-primary">
@@ -36,13 +44,15 @@
 	<input id="drone" type="file" accept="image/*" capture="camera" onchange="onFileSelected(this)">
 </label>
 
-<button type="button" style="display:none" class="btn btn-primary btn-lg btn-block">Deliver</button>
+<div id="send-group" style="display:none">
+	<input id="secret" class="form-control form-control-lg" type="text" placeholder="Secret">
+	<button type="button" class="btn btn-primary btn-lg btn-block" onclick="placeOrder()">Deliver</button>
+</div>
 
-<hr />
-
-VERSION wow
+<hr /> VERSION 4.5
 
 <script>
+	var secret_input = document.querySelector('#secret')
 	var drone_data = undefined
 	var order_data = undefined
 	function $(selector, parent) {
@@ -58,8 +68,9 @@ VERSION wow
 					drone_data = parsed
 				else
 					order_data = parsed
+				label.className = 'alert alert-success'
 				if (drone_data && order_data)
-					document.querySelector('button').style = ''
+					document.querySelector('#send-group').style.display = ''
 			} catch (e) {
 				alert(e)
 				label.className = 'alert alert-danger'
@@ -75,5 +86,14 @@ VERSION wow
 				qrcode.decode(url)
 			}
 		} catch (e) { alert(e) }
+	}
+	function placeOrder() {
+		ajax('wow', console.log, JSON.stringify({ drone_data, order_data, secret: secret_input.value }))
+	}
+	function ajax(url, callback, data) {
+		var xhr = new XMLHttpRequest()
+		xhr.addEventListener("load", callback)
+		xhr.open(typeof data === 'string' ? 'post' : 'get', url)
+		xhr.send(data)
 	}
 </script>
