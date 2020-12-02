@@ -72,9 +72,9 @@ Scan drone and order QR codes, enter secret and click Deliver.
 				if (parsed.type !== input.id)
 					throw new Error('Incorrect QR code type')
 				if (input.id === 'drone')
-					drone_data = value
+					drone_data = parsed
 				else
-					order_data = value
+					order_data = parsed
 				label.className = 'alert alert-success'
 				if (drone_data && order_data)
 					sendGroup.style.display = ''
@@ -100,11 +100,16 @@ Scan drone and order QR codes, enter secret and click Deliver.
 		ajax(
 			'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/deliver',
 			placeOrderCallback,
-			JSON.stringify({ drone_data, order_data, secret: secret_input.value }),
+			JSON.stringify({
+				drone: drone_data,
+				order: order_data,
+				secret: secret_input.value
+			}),
 			{
 				'X-API-Key': 'FlAPPx4KCH9GyhGT5IznC2QmzGc9WcuE4aG6foMj',
 				'Content-Type': 'application/json'
-			})
+			}
+		)
 	}
 	function placeOrderCallback(res) {
 		var xhr = this
