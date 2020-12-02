@@ -105,7 +105,7 @@ Scan drone and order QR codes, enter secret phrase and click Deliver.
 	function placeOrder() {
 		statusEl.style = ''
 		statusEl.className = 'alert alert-primary'
-		statusEl.textContent = 'Requesting delivery...'
+		statusEl.innerHTML = 'Requesting delivery...'
 		ajax(
 			'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/deliver',
 			placeOrderCallback,
@@ -124,11 +124,11 @@ Scan drone and order QR codes, enter secret phrase and click Deliver.
 		var xhr = this
 		if (xhr.status === 200) {
 			statusEl.className = 'alert alert-success'
-			statusEl.textContent = 'Delivery request succeeded'
+			statusEl.innerHTML = 'Delivery request succeeded'
 		}
 		else {
 			statusEl.className = 'alert alert-warning'
-			statusEl.textContent = 'Delivery request failed'
+			statusEl.innerHTML = 'Delivery request failed'
 		}
 	}
 	function ajax(url, callback, data, headers) {
