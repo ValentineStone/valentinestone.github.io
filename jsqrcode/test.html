@@ -92,7 +92,7 @@
 	}
 	function placeOrder() {
 		ajax(
-			'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/place',
+			'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/deliver',
 			placeOrderCallback,
 			JSON.stringify({ drone_data, order_data, secret: secret_input.value }),
 			{
