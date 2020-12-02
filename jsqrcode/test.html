@@ -50,10 +50,14 @@
 	<div id="send-group" style="display:none" class="form">
 		<input id="secret" class="form-control form-control-lg" type="text" placeholder="Secret">
 		<button type="button" class="btn btn-lg btn-block btn-primary" onclick="placeOrder()">Deliver</button>
+		<div id="status" style="display:none" class="alert alert-primary"></div>
 	</div>
-	<div id="status" class="alert alert-light">Scan drone and order QR codes, enter secret phrase and click Deliver.</div>
 
 </div>
+
+<hr />
+
+Scan drone and order QR codes, enter secret phrase and click Deliver.
 
 <script>
 	var secret_input = document.querySelector('#secret')
@@ -79,9 +83,9 @@
 					order_data = parsed
 				label.className = 'alert alert-success'
 				if (drone_data && order_data)
-					sendGroup.style = ''
+					sendGroup.style.display = ''
 				else
-					sendGroup.style = 'display:none'
+					sendGroup.style.display = 'none'
 			} catch (e) {
 				alert(e)
 				label.className = 'alert alert-danger'
@@ -100,6 +104,7 @@
 	}
 	function placeOrder() {
 		try {
+			statusEl.style.display = ''
 			statusEl.className = 'alert alert-primary'
 			statusEl.innerHTML = 'Requesting delivery...'
 			ajax(
@@ -122,11 +127,11 @@
 			var xhr = this
 			if (xhr.status === 200) {
 				statusEl.className = 'alert alert-success'
-				statusEl.innerHTML = 'Delivery request succeeded.'
+				statusEl.innerHTML = 'Delivery request succeeded'
 			}
 			else {
 				statusEl.className = 'alert alert-warning'
-				statusEl.innerHTML = 'Delivery request failed.'
+				statusEl.innerHTML = 'Delivery request failed'
 			}
 		} catch (e) { alert(e) }
 	}
