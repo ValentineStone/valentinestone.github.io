@@ -91,7 +91,11 @@
 		} catch (e) { alert(e) }
 	}
 	function placeOrder() {
-		ajax('wow', placeOrderCallback, JSON.stringify({ drone_data, order_data, secret: secret_input.value }))
+		ajax(
+			'wow',
+			placeOrderCallback,
+			JSON.stringify({ drone_data, order_data, secret: secret_input.value }),
+			{ 'x-api-key': 'FlAPPx4KCH9GyhGT5IznC2QmzGc9WcuE4aG6foMj' })
 	}
 	function placeOrderCallback(res) {
 		var xhr = this
@@ -99,6 +103,8 @@
 			button.className = 'btn btn-lg btn-block btn-success'
 		else
 			button.className = 'btn btn-lg btn-block btn-warning'
+		document.createElement('div')
+		sendGroup.append()
 
 	}
 	function ajax(url, callback, data, headers) {
