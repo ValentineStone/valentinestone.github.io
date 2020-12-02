@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <link rel="stylesheet" href="bootstrap.min.css">
 
 <script src="grid.js"></script>
@@ -67,6 +68,9 @@ Scan drone and order QR codes, enter secret and click Deliver.
 		return function callback(value) {
 			try {
 				if (value instanceof Error) throw value
+				var parsed = JSON.stringify(value)
+				if (parsed.type !== input.id)
+					throw new Error('Incorrect QR code type')
 				if (input.id === 'drone')
 					drone_data = value
 				else
