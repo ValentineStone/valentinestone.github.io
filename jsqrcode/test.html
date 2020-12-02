@@ -103,42 +103,48 @@ Scan drone and order QR codes, enter secret phrase and click Deliver.
 		} catch (e) { alert(e) }
 	}
 	function placeOrder() {
-		statusEl.style = ''
-		statusEl.className = 'alert alert-primary'
-		statusEl.innerHTML = 'Requesting delivery...'
-		ajax(
-			'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/deliver',
-			placeOrderCallback,
-			JSON.stringify({
-				drone: drone_data,
-				order: order_data,
-				secret: secret_input.value
-			}),
-			{
-				'X-API-Key': 'FlAPPx4KCH9GyhGT5IznC2QmzGc9WcuE4aG6foMj',
-				'Content-Type': 'application/json'
-			}
-		)
+		try {
+			statusEl.style = ''
+			statusEl.className = 'alert alert-primary'
+			statusEl.innerHTML = 'Requesting delivery...'
+			ajax(
+				'https://4zdy1z36md.execute-api.eu-central-1.amazonaws.com/v1/order/deliver',
+				placeOrderCallback,
+				JSON.stringify({
+					drone: drone_data,
+					order: order_data,
+					secret: secret_input.value
+				}),
+				{
+					'X-API-Key': 'FlAPPx4KCH9GyhGT5IznC2QmzGc9WcuE4aG6foMj',
+					'Content-Type': 'application/json'
+				}
+			)
+		} catch (e) { alert(e) }
 	}
 	function placeOrderCallback(error) {
-		var xhr = this
-		if (xhr.status === 200) {
-			statusEl.className = 'alert alert-success'
-			statusEl.innerHTML = 'Delivery request succeeded'
-		}
-		else {
-			statusEl.className = 'alert alert-warning'
-			statusEl.innerHTML = 'Delivery request failed'
-		}
+		try {
+			var xhr = this
+			if (xhr.status === 200) {
+				statusEl.className = 'alert alert-success'
+				statusEl.innerHTML = 'Delivery request succeeded'
+			}
+			else {
+				statusEl.className = 'alert alert-warning'
+				statusEl.innerHTML = 'Delivery request failed'
+			}
+		} catch (e) { alert(e) }
 	}
 	function ajax(url, callback, data, headers) {
-		var xhr = new XMLHttpRequest()
-		xhr.addEventListener("load", callback)
-		xhr.addEventListener("error", callback)
-		xhr.open(typeof data === 'string' ? 'post' : 'get', url, true)
-		if (headers)
-			for (var key in headers)
-				xhr.setRequestHeader(key, headers[key])
-		xhr.send(data)
+		try {
+			var xhr = new XMLHttpRequest()
+			xhr.addEventListener("load", callback)
+			xhr.addEventListener("error", callback)
+			xhr.open(typeof data === 'string' ? 'post' : 'get', url, true)
+			if (headers)
+				for (var key in headers)
+					xhr.setRequestHeader(key, headers[key])
+			xhr.send(data)
+		} catch (e) { alert(e) }
 	}
 </script>
