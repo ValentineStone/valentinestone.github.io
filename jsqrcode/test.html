@@ -101,9 +101,12 @@
 			button.className = 'btn btn-lg btn-block btn-warning'
 
 	}
-	function ajax(url, callback, data) {
+	function ajax(url, callback, data, headers) {
 		var xhr = new XMLHttpRequest()
 		xhr.addEventListener("load", callback)
+		if (headers)
+			for (var key in headers)
+				xhr.setRequestHeader(key, headers[key])
 		xhr.open(typeof data === 'string' ? 'post' : 'get', url)
 		xhr.send(data)
 	}
