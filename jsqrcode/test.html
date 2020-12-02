@@ -107,10 +107,10 @@
 	function ajax(url, callback, data, headers) {
 		var xhr = new XMLHttpRequest()
 		xhr.addEventListener("load", callback)
+		xhr.open(typeof data === 'string' ? 'post' : 'get', url)
 		if (headers)
 			for (var key in headers)
 				xhr.setRequestHeader(key, headers[key])
-		xhr.open(typeof data === 'string' ? 'post' : 'get', url)
 		xhr.send(data)
 	}
 </script>
