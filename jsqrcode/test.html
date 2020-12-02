@@ -49,7 +49,7 @@
 	<button type="button" class="btn btn-lg btn-block btn-primary" onclick="placeOrder()">Deliver</button>
 </div>
 
-<hr /> VERSION 5.12
+<hr /> VERSION 6
 
 <script>
 	var secret_input = document.querySelector('#secret')
@@ -97,7 +97,7 @@
 			JSON.stringify({ drone_data, order_data, secret: secret_input.value }),
 			{
 				'x-api-key': 'FlAPPx4KCH9GyhGT5IznC2QmzGc9WcuE4aG6foMj',
-				'Content-Type': 'text/plain'
+				'Content-Type': 'application/json'
 			})
 	}
 	function placeOrderCallback(res) {
