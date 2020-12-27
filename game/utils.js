@@ -8,7 +8,7 @@ export class Rect {
   }
   render(ctx, d) {
     ctx.strokeStyle = this.color
-    ctx.strokeRect(this.x + d * this.dx, this.y + d * this.dy, this.w, this.h)
+    ctx.strokeRect(d * this.dx, d * this.dy, this.w, this.h)
   }
   update() { }
 }
