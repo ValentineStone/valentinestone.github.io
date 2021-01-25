@@ -5,6 +5,13 @@ object-assign
 */
 
 /*!
+         * Sizzle CSS Selector Engine
+         * Copyright 2012 JQXLite Foundation and other contributors
+         * Released under the MIT license
+         * http://sizzlejs.com/
+         */
+
+/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
