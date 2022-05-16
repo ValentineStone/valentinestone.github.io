@@ -5,7 +5,7 @@ var xhr = new XMLHttpRequest();
 xhr.open('GET', location.search.slice(1) + '.md');
 
 xhr.onload = function () {
-  document.querySelector('#app').innerHTML = marked(this.response);
+  document.querySelector('#app').innerHTML = marked.parse(this.response);
   onReady();
 };
 
