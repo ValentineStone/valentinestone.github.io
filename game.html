@@ -1,263 +1,263 @@
 <!doctype html>
 <meta charset="utf-8">
 <style>
-    canvas {
-        top: 0;
-        left: 0;
-        position: fixed;
-    }
+  canvas {
+    top: 0;
+    left: 0;
+    position: fixed;
+  }
 </style>
 <canvas></canvas>
 <script defer type="module">
 
-    const canvas = document.querySelector('canvas')
-    const ctx = canvas.getContext('2d')
+  const canvas = document.querySelector('canvas')
+  const ctx = canvas.getContext('2d')
 
-    function resize() {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+  function resize() {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+
+  window.addEventListener('resize', resize)
+  resize()
+
+  class Rect {
+    constructor(x, y, w, h, color) {
+      this.x = x
+      this.y = y
+      this.w = w
+      this.h = h
+      this.color = color
     }
-
-    window.addEventListener('resize', resize)
-    resize()
-
-    class Rect {
-        constructor(x,y,w,h, color) {
-            this.x = x
-            this.y = y
-            this.w = w
-            this.h = h
-            this.color = color
-        }
-        render(ctx, d) {
-            ctx.strokeStyle = this.color
-            ctx.strokeRect(this.x + d * this.dx, this.y + d*this.dy, this.w, this.h)
-        }
-        update() {}
+    render(ctx, d) {
+      ctx.strokeStyle = this.color
+      ctx.strokeRect(this.x + d * this.dx, this.y + d * this.dy, this.w, this.h)
     }
+    update() { }
+  }
 
-    const vscode_colors = [
-        '#dcdcaa',
-        '#4ec9b0',
-        '#c586c0',
-        '#9cdcfe',
-        '#4fc1ff',
-        '#ce9178',
-        '#d16969',
-        '#d7ba7d',
-        '#569cd6',
-        '#c8c8c8',
-        '#b5cea8',
-    ]
-    const vscode_colors_random = () => {
-        return vscode_colors[Math.floor(Math.random()*vscode_colors.length)]
+  const vscode_colors = [
+    '#dcdcaa',
+    '#4ec9b0',
+    '#c586c0',
+    '#9cdcfe',
+    '#4fc1ff',
+    '#ce9178',
+    '#d16969',
+    '#d7ba7d',
+    '#569cd6',
+    '#c8c8c8',
+    '#b5cea8',
+  ]
+  const vscode_colors_random = () => {
+    return vscode_colors[Math.floor(Math.random() * vscode_colors.length)]
+  }
+  const hex_to_rgba = (color, a) => {
+    const r = parseInt('0x' + color[1] + color[2])
+    const g = parseInt('0x' + color[3] + color[4])
+    const b = parseInt('0x' + color[5] + color[6])
+    return `rgba(${r},${g},${b},${a})`
+  }
+
+  class Bouncer extends Rect {
+    constructor(x, y, w, h, dx, dy, color) {
+      super(x, y, w, h, color)
+      this.dx = dx
+      this.dy = dy
     }
-    const hex_to_rgba = (color, a) => {
-        const r = parseInt('0x' + color[1] + color[2])
-        const g = parseInt('0x' + color[3] + color[4])
-        const b = parseInt('0x' + color[5] + color[6])
-        return `rgba(${r},${g},${b},${a})`
+    update(game) {
+      this.x += this.dx
+      this.y += this.dy
+
+      if (this.x < 0) {
+        this.x = 0
+        this.dx *= -1
+      }
+      if (this.y < 0) {
+        this.y = 0
+        this.dy *= -1
+      }
+      if (this.x + this.w > game.canvas.width) {
+        this.x = game.canvas.width - this.w
+        this.dx *= -1
+      }
+      if (this.y + this.h > game.canvas.height) {
+        this.y = game.canvas.height - this.h
+        this.dy *= -1
+      }
+      let foundSelf = false
+      for (const entity of game.entities) {
+        if (!foundSelf) {
+          if (entity == this)
+            foundSelf = true
+          continue
+        }
+        else
+          this.bounceOff(entity)
+      }
     }
-
-    class Bouncer extends Rect {
-        constructor(x,y,w,h,dx,dy, color) {
-            super(x,y,w,h, color)
-            this.dx = dx
-            this.dy = dy
-        }
-        update(game) {
-           this.x += this.dx 
-           this.y += this.dy
-
-            if (this.x < 0) {
-                this.x = 0
-                this.dx *= -1
-            }
-            if (this.y < 0) {
-                this.y = 0
-                this.dy *= -1
-            }
-            if (this.x + this.w > game.canvas.width) {
-                this.x = game.canvas.width - this.w
-                this.dx *= -1
-            }
-            if (this.y + this.h > game.canvas.height) {
-                this.y = game.canvas.height - this.h
-                this.dy *= -1
-            }
-            let foundSelf = false
-            for (const entity of game.entities) {
-                if (!foundSelf) {
-                    if (entity == this)
-                        foundSelf = true
-                    continue
-                }
-                else
-                    this.bounceOff(entity)
-            }
-        }
-        bounceOff(other) {
-            if (this.x < other.x + other.w &&
-                this.x + this.w > other.x &&
-                this.y < other.y + other.h &&
-                this.y + this.h > other.y
-            ) {
-                if (Math.abs(this.x - other.x) > Math.abs(this.y - other.y))
-                    [this.dx, other.dx] = [other.dx, this.dx]
-                else
-                    [this.dy, other.dy] = [other.dy, this.dy]
-            }
-        }
-        randomize(game) {
-            this.w = Math.random() * 10 + 10
-            this.h = Math.random() * 10 + 10
-            this.x = Math.random() * game.canvas.width
-            this.y = Math.random() * game.canvas.height
-            this.color = vscode_colors_random()
-            this.dx = (Math.random() * 2 + 1) * (Math.random() > 0.5 ? -1 : 1)
-            this.dy = (Math.random() * 2 + 1) * (Math.random() > 0.5 ? -1 : 1)
-            return this
-        }
+    bounceOff(other) {
+      if (this.x < other.x + other.w &&
+        this.x + this.w > other.x &&
+        this.y < other.y + other.h &&
+        this.y + this.h > other.y
+      ) {
+        if (Math.abs(this.x - other.x) > Math.abs(this.y - other.y))
+          [this.dx, other.dx] = [other.dx, this.dx]
+        else
+          [this.dy, other.dy] = [other.dy, this.dy]
+      }
     }
-
-    class Infusoria {
-        constructor(x, y) {
-            Object.assign(this, {
-                x,
-                y,
-                color: vscode_colors_random(),
-                lifeCycleLength: 30,
-                lifeCycleCounter: Math.round(Math.random() * 30),
-                spineCycleCounter: Math.round(Math.random() * 30),
-                spineCount: 10,
-                length: 50,
-                width: 20,
-                dy: Math.random() > 0.5 ? -1 : 1,
-                flapCount: 1,
-                heartbeat: 1
-            })
-            this.halfLength = this.length / 2
-            this.halfWidth = this.width / 2
-            this.shadeColor = hex_to_rgba(this.color, 0.2)
-            this.accentColor = hex_to_rgba(this.color, 0.5)
-        }
-        render(ctx, d) {
-            ctx.fillStyle = this.color
-            ctx.strokeStyle = this.color
-            //ctx.moveTo(this.x, this.y - this.halfLength)
-            //ctx.lineTo(this.x, this.y + this.halfLength)
-            let lastLength = 0
-            let lastOffset = 0
-            for (let i = 0; i < this.spineCount; i++) {
-                const offset = i * this.length / (this.spineCount - 1)
-                let length = Math.abs(Math.sin(i*Math.PI/(this.spineCount - 1))) * this.halfWidth // smooth wave
-                
-                ctx.strokeStyle = this.accentColor
-                ctx.beginPath()
-                ctx.moveTo(this.x - lastLength, this.y - this.halfLength + lastOffset)
-                ctx.lineTo(this.x - length, this.y - this.halfLength + offset)
-                ctx.moveTo(this.x + lastLength, this.y - this.halfLength + lastOffset)
-                ctx.lineTo(this.x + length, this.y - this.halfLength + offset)
-                ctx.stroke()
-                lastLength = length
-                lastOffset = offset
-                
-                length *= Math.abs(Math.sin(this.flapCount*(i + this.spineCycleCounter)*Math.PI/this.spineCount)) * 0.9 + 0.1 // pulse
-                
-                length *= 0.7 // width
-
-                ctx.strokeStyle = this.color
-                ctx.beginPath()
-                ctx.moveTo(this.x - length, this.y - this.halfLength + offset)
-                ctx.lineTo(this.x + length, this.y - this.halfLength + offset)
-                ctx.stroke()
-            }
-        }
-        update() {
-            this.lifetime++
-                this.spineCycleCounter = (this.spineCycleCounter + this.heartbeat * this.dy) % this.spineCount
-                this.lifeCycleCounter = (this.lifeCycleCounter + this.heartbeat * this.dy) % this.lifeCycleLength
-                this.puff = -Math.abs(this.lifeCycleCounter - (this.lifeCycleLength-1) / 2) + (this.lifeCycleLength-1) / 2
-            this.y += this.dy// * ((this.lifeCycleLength-1) / 2 - this.puff)
-            if (this.y + this.halfLength > game.canvas.height) {
-                this.y = game.canvas.height - this.halfLength
-                this.dy = -this.dy
-            }
-            if (this.y - this.halfLength < 0) {
-                this.y = this.halfLength
-                this.dy = -this.dy
-            }
-        }
+    randomize(game) {
+      this.w = Math.random() * 10 + 10
+      this.h = Math.random() * 10 + 10
+      this.x = Math.random() * game.canvas.width
+      this.y = Math.random() * game.canvas.height
+      this.color = vscode_colors_random()
+      this.dx = (Math.random() * 2 + 1) * (Math.random() > 0.5 ? -1 : 1)
+      this.dy = (Math.random() * 2 + 1) * (Math.random() > 0.5 ? -1 : 1)
+      return this
     }
+  }
 
-    class Game {
-        constructor(canvas) {
-            this.canvas = canvas
-            this.entities = []
-            this.upsTarget = 20
-            this.upsCounter = 0
-            this.fpsCounter = 0
-            this.fps = '-'
-            this.ups = this.upsTarget
-
-            setInterval(() => {
-                this.ups = this.upsCounter
-                this.upsCounter = 0
-            }, 1000)
-
-            this.background = '#0c0c0c'
-
-            for (let i = 0; i < 20; i++)
-                this.entities.push(new Bouncer().randomize(this))
-            for (let i = 0; i < 20; i++)
-                this.entities.push(new Infusoria(i * (this.canvas.width / 21) + this.canvas.width / 21, Math.floor(Math.random() * this.canvas.height)))
-        }
-        update() {
-            const sinceLastUpdated = performance.now() - this.lastUpdated
-            this.fps = Math.round(this.fpsCounter / sinceLastUpdated * 1000)
-            this.fpsCounter = 0
-            this.upsCounter++
-            this.lastUpdated = performance.now()
-            for (let entity of this.entities)
-                entity.update(this)
-        }
-        render(ctx) {
-            this.fpsCounter++
-            this.delta = (performance.now() - this.lastUpdated) / (1000 / game.upsTarget)
-            ctx.fillStyle = this.background
-            ctx.fillRect(0,0,canvas.width,canvas.height)
-            for (let entity of this.entities)
-                entity.render(ctx, this.delta)
-            ctx.font = '20px monospace'
-            ctx.fillStyle = vscode_colors[5]
-            ctx.fillText('δ : ' + String(this.delta).slice(0, 5), 5, 20)
-            ctx.fillStyle = vscode_colors[10]
-            ctx.fillText('θ : ' + this.fps, 5, 40)
-            ctx.fillStyle = vscode_colors[7]
-            ctx.fillText('μ : ' + this.ups, 5, 60)
-
-            for (let i = 0; i < vscode_colors.length; i++) {
-                ctx.fillStyle = vscode_colors[i]
-                ctx.fillText('■ : ' + vscode_colors[i], 5, i * 20 + 100)
-            }
-
-        }
+  class Infusoria {
+    constructor(x, y) {
+      Object.assign(this, {
+        x,
+        y,
+        color: vscode_colors_random(),
+        lifeCycleLength: 30,
+        lifeCycleCounter: Math.round(Math.random() * 30),
+        spineCycleCounter: Math.round(Math.random() * 30),
+        spineCount: 10,
+        length: 50,
+        width: 20,
+        dy: Math.random() > 0.5 ? -1 : 1,
+        flapCount: 1,
+        heartbeat: 1
+      })
+      this.halfLength = this.length / 2
+      this.halfWidth = this.width / 2
+      this.shadeColor = hex_to_rgba(this.color, 0.2)
+      this.accentColor = hex_to_rgba(this.color, 0.5)
     }
+    render(ctx, d) {
+      ctx.fillStyle = this.color
+      ctx.strokeStyle = this.color
+      //ctx.moveTo(this.x, this.y - this.halfLength)
+      //ctx.lineTo(this.x, this.y + this.halfLength)
+      let lastLength = 0
+      let lastOffset = 0
+      for (let i = 0; i < this.spineCount; i++) {
+        const offset = i * this.length / (this.spineCount - 1)
+        let length = Math.abs(Math.sin(i * Math.PI / (this.spineCount - 1))) * this.halfWidth // smooth wave
 
-    const game = new Game(canvas)
+        ctx.strokeStyle = this.accentColor
+        ctx.beginPath()
+        ctx.moveTo(this.x - lastLength, this.y - this.halfLength + lastOffset)
+        ctx.lineTo(this.x - length, this.y - this.halfLength + offset)
+        ctx.moveTo(this.x + lastLength, this.y - this.halfLength + lastOffset)
+        ctx.lineTo(this.x + length, this.y - this.halfLength + offset)
+        ctx.stroke()
+        lastLength = length
+        lastOffset = offset
 
+        length *= Math.abs(Math.sin(this.flapCount * (i + this.spineCycleCounter) * Math.PI / this.spineCount)) * 0.9 + 0.1 // pulse
 
+        length *= 0.7 // width
 
-    function render() {
-        game.render(ctx)
-        requestAnimationFrame(render)
+        ctx.strokeStyle = this.color
+        ctx.beginPath()
+        ctx.moveTo(this.x - length, this.y - this.halfLength + offset)
+        ctx.lineTo(this.x + length, this.y - this.halfLength + offset)
+        ctx.stroke()
+      }
     }
-
-    function update() {
-        game.update()
+    update() {
+      this.lifetime++
+      this.spineCycleCounter = (this.spineCycleCounter + this.heartbeat * this.dy) % this.spineCount
+      this.lifeCycleCounter = (this.lifeCycleCounter + this.heartbeat * this.dy) % this.lifeCycleLength
+      this.puff = -Math.abs(this.lifeCycleCounter - (this.lifeCycleLength - 1) / 2) + (this.lifeCycleLength - 1) / 2
+      this.y += this.dy// * ((this.lifeCycleLength-1) / 2 - this.puff)
+      if (this.y + this.halfLength > game.canvas.height) {
+        this.y = game.canvas.height - this.halfLength
+        this.dy = -this.dy
+      }
+      if (this.y - this.halfLength < 0) {
+        this.y = this.halfLength
+        this.dy = -this.dy
+      }
     }
+  }
 
+  class Game {
+    constructor(canvas) {
+      this.canvas = canvas
+      this.entities = []
+      this.upsTarget = 20
+      this.upsCounter = 0
+      this.fpsCounter = 0
+      this.fps = '-'
+      this.ups = this.upsTarget
+
+      setInterval(() => {
+        this.ups = this.upsCounter
+        this.upsCounter = 0
+      }, 1000)
+
+      this.background = '#0c0c0c'
+
+      for (let i = 0; i < 20; i++)
+        this.entities.push(new Bouncer().randomize(this))
+      for (let i = 0; i < 20; i++)
+        this.entities.push(new Infusoria(i * (this.canvas.width / 21) + this.canvas.width / 21, Math.floor(Math.random() * this.canvas.height)))
+    }
+    update() {
+      const sinceLastUpdated = performance.now() - this.lastUpdated
+      this.fps = Math.round(this.fpsCounter / sinceLastUpdated * 1000)
+      this.fpsCounter = 0
+      this.upsCounter++
+      this.lastUpdated = performance.now()
+      for (let entity of this.entities)
+        entity.update(this)
+    }
+    render(ctx) {
+      this.fpsCounter++
+      this.delta = (performance.now() - this.lastUpdated) / (1000 / game.upsTarget)
+      ctx.fillStyle = this.background
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      for (let entity of this.entities)
+        entity.render(ctx, this.delta)
+      ctx.font = '20px monospace'
+      ctx.fillStyle = vscode_colors[5]
+      ctx.fillText('δ : ' + String(this.delta).slice(0, 5), 5, 20)
+      ctx.fillStyle = vscode_colors[10]
+      ctx.fillText('θ : ' + this.fps, 5, 40)
+      ctx.fillStyle = vscode_colors[7]
+      ctx.fillText('μ : ' + this.ups, 5, 60)
+
+      for (let i = 0; i < vscode_colors.length; i++) {
+        ctx.fillStyle = vscode_colors[i]
+        ctx.fillText('■ : ' + vscode_colors[i], 5, i * 20 + 100)
+      }
+
+    }
+  }
+
+  const game = new Game(canvas)
+
+
+
+  function render() {
+    game.render(ctx)
     requestAnimationFrame(render)
-    setInterval(update, 1000 / game.upsTarget)
+  }
+
+  function update() {
+    game.update()
+  }
+
+  requestAnimationFrame(render)
+  setInterval(update, 1000 / game.upsTarget)
 
 </script>
