@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  * { box-sizing: border-box; }
+  html {
+    height: 100%;
+  }
+  input, button {
+    font-size: 80pt;
+    display: block;
+    margin: 0 auto;
+  }
+  input {
+    margin-bottom: 50px;
+  }
+  button {
+    font-size: 120pt;
+  }
+</style>
+
+<input value="30" size="1">
+<button style="height: 50%"> GO! </button>
+
+<script>
+
+  var button = document.querySelector('button')
+  var input = document.querySelector('input')
+
+  var interval = null
+
+  button.addEventListener('click', function () {
+    clearInterval(interval)
+    interval = setInterval(beep, +input.value * 1000)
+  }, true)
+
+  var beepSound = new Audio("beep.wav")
+  function beep() {
+    beepSound.play()
+  }
+
+</script>
