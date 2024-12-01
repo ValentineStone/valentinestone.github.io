@@ -1,0 +1,48 @@
+<!doctype html>
+<style>table, td, th {border: 1px solid black;}</style>
+
+<h2>Submitted to WMS:</h2>
+<table style="width: 300px;">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Prod. line</td>
+      <td id="productionLine"></td>
+    </tr>
+    <tr>
+      <td>Barcode</td>
+      <td id="barcode"></td>
+    </tr>
+    <tr>
+      <td>RFID Label</td>
+      <td id="rfidLabel"></td>
+    </tr>
+    <tr>
+      <td>Time</td>
+      <td id="time"></td>
+    </tr>
+  </tbody>
+</table>
+<h1></h1>
+<pre></pre>
+
+<script>
+  const params = new URLSearchParams(location.search)
+  document.querySelector('pre').textContent = JSON.stringify(Object.fromEntries(params), null, 2)
+  const setIfPresent = name => params.has(name) && (document.querySelector('#'+name).textContent = params.get(name))
+  if (params.has('token')) {
+    setIfPresent('productionLine')
+    setIfPresent('barcode')
+    setIfPresent('rfidLabel')
+    setIfPresent('time')
+    setTimeout(() => location = './wms.html?token=' + encodeURIComponent(params.get('token')), 2000)
+  } else {
+    document.querySelector('h1').textContent = 'NO ACCESS'
+    setTimeout(() => location = './login.html', 2000)
+  }
+</script>

@@ -1,0 +1,22 @@
+<!doctype html>
+<form id="loginForm" action="./login.html" method="get" style="display: flex; flex-direction: column; max-width: 300px; gap: 0.5em;">
+  <input name="user" placeholder="Username">
+  <input name="pass" type="password" placeholder="Password">
+  <input name="token" type="hidden" value="fakeass">
+  <input type="submit" value="Submit!">
+</form>
+<h1></h1>
+<pre></pre>
+
+<script>
+  const a = () => ('qwertyuiopasdfghjklzxcvbnm')[Math.floor(Math.random()*26)]
+  document.querySelector('input[name=token]').value = '__tok-' + String(Math.random()).slice(2) + a() + a() + a()
+  const params = new URLSearchParams(location.search)
+  document.querySelector('pre').textContent = JSON.stringify(Object.fromEntries(params), null, 2)
+  if (params.get('pass') === 'password') {
+    document.querySelector('h1').textContent = 'Login OK'
+    setTimeout(() => location = './wms.html?token=' + encodeURIComponent(params.get('token')), 1000)
+  } else if (params.has('pass')) {
+    document.querySelector('h1').textContent = 'Login FAIL'
+  }
+</script>
